@@ -7,8 +7,8 @@ class Player(object):
     def describe(self):
         print "Player %d is %s and has symbol %s" % (self.pos, self.type, self.sym)
 
-    def move(self):
-        return 0
+    def move(self, board):
+        return self.choose_position(board)
 
-    def choose_position(self):
+    def choose_position(self, board):
         pass

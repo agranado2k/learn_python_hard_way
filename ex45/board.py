@@ -15,14 +15,12 @@ class Board(object):
 
         return sym
 
-    def clean(self):
-        pass
-
     def is_position_empty(self, pos):
-        pass
+        return self.positions[pos] == None
 
     def fill_position(self, pos, symbol):
-        pass
+        self.positions[pos] = symbol
 
     def is_full(self):
-        pass
+        filtered = [p for p in self.positions if p == None]
+        return len(filtered) == 0

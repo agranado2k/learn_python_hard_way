@@ -59,18 +59,59 @@ class Game(object):
         print "Let's play!!!"
         self.current_player = self.player_1
 
-        self.board.draw()
-        print "Player %d" % self.current_player.pos
-        print "Choose an available position"
-        pos = self.current_player.move()
-        if not self.board.is_position_empty(pos):
-            # repat the loop
-            print "Position not avaliable. Try again!"
-            # continue
+        game_over = True
+        while game_over:
+            self.board.draw()
+            print "Player %d (%s - %s) turn:" % (self.current_player.pos, self.current_player.type, self.current_player.sym)
+            pos = self.current_player.move(self.board)
+            if not self.board.is_position_empty(pos):
+                print "Position not avaliable. Try again!"
+                continue
 
-        print "Marking pos %d" % pos
-        self.board.fill_position(pos, self.current_player.sym)
+            self.board.fill_position(pos, self.current_player.sym)
+            if self.is_winner(self.board, self.current_player.sym):
+                game_over = False
+                print "Player %d won!!!!" % self.current_player.pos
+            elif self.board.is_full():
+                game_over = False
+                print "It's even!"
+            else:
+                self.change_player()
 
         self.board.draw()
+        print "Game Over!"
+
+    def change_player(self):
+        if self.current_player.sym != self.player_1.sym:
+            self.current_player = self.player_1
+        else:
+            self.current_player = self.player_2
+
+    def is_winner(self, board, sym):
+        if board.positions[0] == board.positions[1] == board.positions[2] == sym:
+            return True
+
+        if board.positions[3] == board.positions[4] == board.positions[5] == sym:
+            return True
+
+        if board.positions[6] == board.positions[7] == board.positions[8] == sym:
+            return True
+
+        if board.positions[0] == board.positions[3] == board.positions[6] == sym:
+            return True
+
+        if board.positions[1] == board.positions[4] == board.positions[5] == sym:
+            return True
+
+        if board.positions[2] == board.positions[5] == board.positions[8] == sym:
+            return True
+
+        if board.positions[0] == board.positions[4] == board.positions[8] == sym:
+            return True
+
+        if board.positions[2] == board.positions[4] == board.positions[6] == sym:
+            return True
+
+        return False
 
 Game().start()
